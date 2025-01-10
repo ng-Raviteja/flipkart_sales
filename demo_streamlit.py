@@ -5,6 +5,7 @@ from io import BytesIO
 import requests
 import io
 import google.generativeai as genai
+import json
 genai.configure(api_key="AIzaSyA7gh0ANlePJTQSbLUqSVbxT6jwlh1Hu_E")
 model = genai.GenerativeModel("gemini-1.5-pro")
 def transcribe_audio(audio_file):
@@ -41,7 +42,7 @@ Return: analysis
 """
 
 def analyze_transcription(transcription):
-    analysis_prompt_updated=analysis_prompt.replace("{transcription}",transcription)
+    analysis_prompt_updated=analysis_prompt.replace("{transcription}",str(transcription))
     try:
         response = model.generate_content(analysis_prompt_updated)
         json_response=json.loads(response.text.replace("```json","").replace("```",""))
